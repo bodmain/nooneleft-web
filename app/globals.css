@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html.dark { color-scheme: dark; }
+body { @apply bg-light text-gray-800; }
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* html.accessible-mode {
+  background-color: #faf5eb !important;
+  color: #222 !important;
+} */
+
+/* html.accessible-mode body {
+  filter: brightness(0.97);
+  transition: all 0.4s ease-in-out;
+} */
+/* html {
+  --bg-color: #fffaf6;
+  --text-color: #222;
+  --card-bg: #ffffff;
+}
+
+html.accessible-mode {
+  --bg-color: #f5ede0; /* tone be dịu hơn */
+  /* --text-color: #1a1a1a;
+  --card-bg: #f9f4ea;
+} */ 
