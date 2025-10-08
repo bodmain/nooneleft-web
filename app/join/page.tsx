@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaFacebook, FaInstagram, FaTiktok, FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation"; // ✅ thêm dòng này
-
+import { useSearchParams } from "next/navigation";
 
 const FAQS = [
   {
@@ -32,10 +31,11 @@ const PROJECT_OPTIONS = [
   "Thư viện cho trẻ em vùng sâu",
 ];
 
-export default function JoinPage() {
+function JoinForm() {
+  const searchParams = useSearchParams();
+  const projectParam = searchParams.get("project");
+
   const [selectedFAQ, setSelectedFAQ] = useState<number | null>(null);
-  const searchParams = useSearchParams(); // ✅ đọc query từ URL
-  const projectParam = searchParams.get("project"); // ✅ lấy giá trị ?project=
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -45,6 +45,12 @@ export default function JoinPage() {
     role: "",
     message: "",
   });
+
+  useEffect(() => {
+    if (projectParam) {
+      setForm((prev) => ({ ...prev, project: projectParam }));
+    }
+  }, [projectParam]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,38 +65,9 @@ export default function JoinPage() {
     });
     setTimeout(() => setSubmitted(false), 4000);
   };
-  
-  // ✅ Khi có query ?project=..., tự chọn dự án trong dropdown
-  useEffect(() => {
-    if (projectParam) {
-      setForm((prev) => ({ ...prev, project: projectParam }));
-    }
-  }, [projectParam]);
-
- 
 
   return (
-    <div className="pt-0">
-      {/* === HERO === */}
-      <section className="relative h-[65vh] flex items-center justify-center text-center text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#fbbf77] via-[#f9a84d] to-[#f97316]" />
-        <div className="absolute inset-0 bg-black/30" />
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 px-6 max-w-2xl"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
-            Cùng NoOneLeft tạo nên thay đổi
-          </h1>
-          <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md">
-            Hãy trở thành một phần của hành trình lan tỏa yêu thương – nơi mọi hành động
-            nhỏ đều mang đến ý nghĩa lớn lao.
-          </p>
-        </motion.div>
-      </section>
-
+    <>
       {/* === FORM === */}
       <section className="py-20 bg-gradient-to-b from-white to-orange-50 relative">
         <div className="max-w-3xl mx-auto px-6 text-center">
@@ -270,24 +247,52 @@ export default function JoinPage() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
 
-      {/* === CẢM ƠN / CTA PHỤ === */}
+export default function JoinPage() {
+  return (
+    <>
+      {/* === HERO === */}
+      <section className="relative h-[65vh] flex items-center justify-center text-center text-white overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#fbbf77] via-[#f9a84d] to-[#f97316]" />
+        <div className="absolute inset-0 bg-black/30" />
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 px-6 max-w-2xl"
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
+            Cùng NoOneLeft tạo nên thay đổi
+          </h1>
+          <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md">
+            Hãy trở thành một phần của hành trình lan tỏa yêu thương – nơi mọi hành động
+            nhỏ đều mang đến ý nghĩa lớn lao.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* ✅ Gói trong Suspense để tránh lỗi build */}
+      <Suspense fallback={<div className="p-10 text-center text-gray-500">Đang tải...</div>}>
+        <JoinForm />
+      </Suspense>
+
+      {/* === CTA cuối trang === */}
       <section className="py-20 bg-gradient-to-br from-orange-100 to-yellow-50 text-center">
         <div className="max-w-2xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-orange-600 mb-4">
             Cảm ơn bạn đã sẵn sàng lan tỏa yêu thương ❤️
           </h2>
           <p className="text-gray-700 mb-8">
-            Mỗi người đều có thể tạo ra sự thay đổi. Theo dõi NoOneLeft để cùng chúng tôi
-            cập nhật các dự án, câu chuyện và cơ hội mới.
+            Theo dõi NoOneLeft để cùng chúng tôi cập nhật các dự án, câu chuyện và cơ hội mới.
           </p>
-
           <div className="flex justify-center gap-6 text-orange-600 text-2xl">
             <a href="#"><FaFacebook /></a>
             <a href="#"><FaInstagram /></a>
             <a href="#"><FaTiktok /></a>
           </div>
-
           <div className="mt-10">
             <Link
               href="/projects"
@@ -298,6 +303,6 @@ export default function JoinPage() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
