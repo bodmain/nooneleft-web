@@ -33,11 +33,28 @@ export default function AboutPage() {
   ];
 
   const timeline = [
-    { year: "2022", text: "Ý tưởng NoOneLeft được khởi xướng bởi nhóm sinh viên." },
-    { year: "2023", text: "Ra mắt website đầu tiên, thu hút hàng trăm tình nguyện viên." },
-    { year: "2024", text: "Mở rộng hợp tác với tổ chức cộng đồng và doanh nghiệp xã hội." },
-    { year: "2025", text: "Phát triển nền tảng & lan tỏa câu chuyện khuyết tật truyền cảm hứng." },
-  ];
+  {
+    year: "2022",
+    text: "NoOneLeft được khởi xướng với mong muốn tạo ra sân chơi thiện nguyện cho tất cả mọi người, đặc biệt là người khuyết tật.",
+    image: "/images/tl1.jpg",
+  },
+  {
+    year: "2023",
+    text: "Mở rộng mạng lưới tình nguyện viên tại 10 tỉnh thành, kết nối hàng trăm người tham gia các dự án cộng đồng.",
+    image: "/images/tl2.jpg",
+  },
+  {
+    year: "2024",
+    text: "Tổ chức chiến dịch '1000 nụ cười' mang quà và học bổng cho trẻ em vùng cao, lan tỏa tinh thần 'Không ai bị bỏ lại phía sau'.",
+    image: "/images/tl3.webp",
+  },
+  {
+    year: "2025",
+    text: "Phát triển nền tảng trực tuyến kết nối nhà tài trợ, tình nguyện viên và các tổ chức xã hội cùng chung tay vì cộng đồng.",
+    image: "/images/tl4.webp",
+  },
+];
+
 
   const teamMembers = team;
 
@@ -88,37 +105,65 @@ export default function AboutPage() {
       </section>
 
   {/* === Opening Story (Câu chuyện khởi đầu) === */}
-<section className="py-16 bg-orange-50">
+<section className="relative overflow-hidden py-24 bg-gradient-to-br from-orange-100 via-white to-yellow-50">
+  {/* Background decorative element */}
+  <div className="absolute inset-0 opacity-10 bg-[url('/images/pattern.svg')] bg-cover bg-center"></div>
+
   <motion.div
-    className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center"
+    className="relative z-10 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center"
     initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ duration: 0.6 }}
   >
     {/* Left Image */}
-    <div className="flex justify-center md:justify-start">
-      <img 
-          src="/images/vc2.webp" 
-        alt="Chuyến thiện nguyện" 
-        className="w-full md:w-3/4 rounded-lg shadow-xl transform transition duration-500 ease-in-out hover:scale-105 hover:opacity-90"
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.4 }}
+      className="relative"
+    >
+      <img
+        src="/images/vc2.webp"
+        alt="Chuyến thiện nguyện"
+        className="w-full rounded-2xl shadow-2xl"
       />
-    </div>
+      <div className="absolute -bottom-6 -left-6 bg-white shadow-lg rounded-2xl px-6 py-4 max-w-xs">
+        <p className="text-orange-600 font-semibold">
+          “Một nụ cười có thể thay đổi cả ngày của ai đó.”
+        </p>
+      </div>
+    </motion.div>
 
     {/* Right Content */}
     <div>
-      <h2 className="text-4xl font-bold text-orange-600 mb-6">Câu chuyện khởi đầu</h2>
-      <p className="text-gray-700 text-lg md:text-xl leading-relaxed">
-        Tôi từng đọc về một bạn trẻ khuyết tật tham gia chuyến thiện nguyện giúp trẻ em vùng cao. 
-        Dù di chuyển vất vả, bạn ấy luôn nở nụ cười rạng rỡ, chủ động phát quà và chơi đùa cùng các em. 
-        Giữa tiếng cười của trẻ và ánh mắt kiên định ấy, tôi nhận ra rằng nếu một người có hạn chế về cơ thể vẫn hết lòng cống hiến, thì tôi – một người khỏe mạnh – còn lý do gì để chần chừ?
-        <br /><br />
-        Câu chuyện giản dị ấy thôi thúc tôi: thiện nguyện không phải điều lớn lao, đôi khi chỉ cần một nụ cười, một lời động viên, hay hành động nhỏ. Người khuyết tật không chỉ cần giúp đỡ – họ cũng có thể truyền cảm hứng. 
-        <span className="font-semibold text-orange-600"> Từ suy ngẫm này, NoOneLeft ra đời</span> – nền tảng lan tỏa hành động đẹp và khẳng định rằng mỗi cá nhân đều có giá trị để cống hiến.
+      <h2 className="text-4xl md:text-5xl font-extrabold text-orange-600 mb-6">
+        Câu chuyện khởi đầu
+      </h2>
+
+      <p className="text-gray-700 text-lg leading-relaxed mb-6">
+        Mọi hành trình ý nghĩa đều bắt đầu từ một khoảnh khắc nhỏ. 
+        Với NoOneLeft, đó là khi chúng tôi gặp một bạn trẻ khuyết tật trong chuyến thiện nguyện vùng cao — 
+        người đã lan tỏa năng lượng tích cực bằng nụ cười và sự kiên cường của mình.
       </p>
+
+      <p className="text-gray-700 text-lg leading-relaxed mb-8">
+        Từ khoảnh khắc ấy, chúng tôi nhận ra: <span className="font-semibold text-orange-600">
+        thiện nguyện không chỉ là cho đi, mà còn là cùng nhau truyền cảm hứng để không ai bị bỏ lại phía sau.
+        </span>
+      </p>
+
+      <motion.a
+        href="/projects"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="inline-block px-8 py-3 bg-gradient-to-r from-orange-500 to-yellow-400 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
+      >
+        Khám phá hành trình của chúng tôi
+      </motion.a>
     </div>
   </motion.div>
 </section>
+
 
       {/* === Why Join === */}
      <section className="py-16 bg-yellow-50">
@@ -191,33 +236,68 @@ export default function AboutPage() {
       </section>
 
       
- {/* === Timeline === */}
-      <section className="py-20 bg-white">
-        <motion.h2
+ {/* === Timeline (Hành trình phát triển) === */}
+<section className="relative py-24 bg-gradient-to-b from-gray-50 via-white to-gray-100 overflow-hidden">
+  <motion.h2
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    viewport={{ once: true }}
+    className="text-4xl font-extrabold text-center text-orange-600 mb-16"
+  >
+    Hành trình phát triển
+  </motion.h2>
+
+  <div className="relative max-w-5xl mx-auto">
+    {/* Vertical line */}
+    <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-orange-400 to-yellow-300 h-full rounded-full"></div>
+
+    <div className="space-y-16 relative z-10">
+      {timeline.map((t, i) => (
+        <motion.div
+          key={i}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ delay: i * 0.15, duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-3xl font-bold text-center text-orange-600 mb-12"
+          className={`relative flex items-center ${
+            i % 2 === 0 ? "flex-row-reverse" : ""
+          }`}
         >
-          Hành trình phát triển
-        </motion.h2>
+          {/* Nội dung */}
+          <div
+            className={`w-1/2 px-8 ${
+              i % 2 === 0 ? "text-left" : "text-right"
+            }`}
+          >
+            <h3 className="text-2xl font-bold text-orange-500">{t.year}</h3>
+            <p className="text-gray-700 mt-3 text-lg leading-relaxed">{t.text}</p>
+          </div>
 
-        <div className="max-w-3xl mx-auto border-l-4 border-orange-400 pl-6 space-y-8">
-          {timeline.map((t, i) => (
+          {/* Cột mốc tròn giữa */}
+          <div className="w-10 h-10 bg-white border-4 border-orange-400 rounded-full shadow-lg flex items-center justify-center z-20">
             <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.2, duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold text-orange-500">{t.year}</h3>
-              <p className="text-gray-700 mt-2">{t.text}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-3 h-3 bg-orange-500 rounded-full"
+            ></motion.div>
+          </div>
+
+          {/* Hình minh họa hoặc icon */}
+          <div className="w-1/2 px-8 flex justify-center">
+            <motion.img
+              src={t.image || "/images/impact.webp"}
+              alt="Milestone"
+              className="w-64 h-40 object-cover rounded-xl shadow-xl hover:scale-105 transition-transform"
+              whileHover={{ scale: 1.05 }}
+            />
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* === Team Section (Nâng cấp) === */}
 <section className="py-20 bg-gradient-to-b from-orange-50 to-white">

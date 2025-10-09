@@ -452,6 +452,40 @@ export default function DonatePage() {
       </AnimatePresence>
     </section>
 
+    {/* === CTA: Xem thêm dự án === */}
+<section className="py-20 bg-gradient-to-br from-orange-50 to-yellow-50 text-center">
+  <motion.h2
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6 }}
+    className="text-3xl font-bold text-orange-600 mb-6"
+  >
+    Khám phá thêm những dự án ý nghĩa 🌱
+  </motion.h2>
+  <p className="text-gray-700 max-w-2xl mx-auto mb-10">
+    Mỗi dự án đều mang trong mình câu chuyện riêng — cùng chung tay lan tỏa yêu thương
+    và tạo nên những thay đổi tích cực.
+  </p>
+
+  <motion.a
+    href="/projects"
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-orange-500 to-yellow-400 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
+  >
+    Xem thêm dự án
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      stroke="currentColor"
+      className="w-5 h-5"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </motion.a>
+</section>
 
       {/* === POPUP NGƯỜI MỚI ỦNG HỘ === */}
       {showDonationPopup && (

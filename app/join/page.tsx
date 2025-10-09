@@ -256,8 +256,11 @@ export default function JoinPage() {
     <>
       {/* === HERO === */}
       <section className="relative h-[65vh] flex items-center justify-center text-center text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#fbbf77] via-[#f9a84d] to-[#f97316]" />
-        <div className="absolute inset-0 bg-black/30" />
+       <div className="absolute inset-0 bg-gradient-to-br from-[#fff3e0] via-[#ffd180] to-[#ffab40]" />
+           <div className="absolute inset-0 bg-black/20" />
+
+
+
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -265,7 +268,7 @@ export default function JoinPage() {
           className="relative z-10 px-6 max-w-2xl"
         >
           <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
-            Cùng NoOneLeft tạo nên thay đổi
+           Hãy viết nên câu chuyện của riêng bạn
           </h1>
           <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md">
             Hãy trở thành một phần của hành trình lan tỏa yêu thương – nơi mọi hành động
