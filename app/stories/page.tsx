@@ -25,7 +25,7 @@ const stories = [
     id: 3,
     slug: "cong-dong-la-tren-het",
     title: "Cộng đồng là trên hết",
-    img: "/images/lu_lut.jpg",
+    img: "/images/lu_thai_nguyen.webp",
     desc: "Giữa đổ nát sau lũ, chúng tôi nhận ra sức mạnh lớn nhất chính là tình người và sự gắn kết.",
     category: "Môi trường",
   },
@@ -72,28 +72,33 @@ export default function StoriesPage() {
 
   return (
     <div className="pt-0">
-      {/* === HERO SECTION === */}
-      <section className="relative h-[75vh] flex items-center justify-center text-center text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f97316] via-[#fbbf24] to-[#f59e0b] animate-[gradientShift_15s_linear_infinite]" />
-        <div className="absolute inset-0 bg-black/25 backdrop-blur-[2px]" />
+     <section className="relative h-[75vh] flex items-center justify-center text-center text-white overflow-hidden">
+ {/* Gradient nền ấm dịu hơn, bớt chói và có chiều sâu */}
+<div className="absolute inset-0 bg-gradient-to-br from-[#f3d6a0] via-[#d48b2a] to-[#c96b29] animate-[gradientShift_18s_linear_infinite]" />
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 px-6 max-w-3xl"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
-            Câu chuyện của tuần
-          </h1>
-          <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md opacity-95">
-            Mỗi hành động nhỏ đều có thể tạo ra thay đổi lớn — cùng NoOneLeft
-            viết tiếp hành trình thiện nguyện và sẻ chia yêu thương.
-          </p>
-        </motion.div>
+{/* Lớp phủ làm mềm màu & giúp chữ/logo nổi hơn */}
+<div className="absolute inset-0 bg-white/20 backdrop-blur-[3px]" />
 
-        <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
-      </section>
+
+
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+    className="relative z-10 px-6 max-w-3xl"
+  >
+    <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
+      Câu chuyện của tuần
+    </h1>
+    <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md opacity-95">
+      Mỗi hành động nhỏ đều có thể tạo ra thay đổi lớn — cùng NoOneLeft
+      viết tiếp hành trình thiện nguyện và sẻ chia yêu thương.
+    </p>
+  </motion.div>
+
+  <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400" />
+</section>
+
 
       {/* === DANH SÁCH CÂU CHUYỆN === */}
       <section className="py-20 bg-gradient-to-b from-white to-orange-50">

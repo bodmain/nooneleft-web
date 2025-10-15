@@ -255,27 +255,29 @@ export default function JoinPage() {
   return (
     <>
       {/* === HERO === */}
-      <section className="relative h-[65vh] flex items-center justify-center text-center text-white overflow-hidden">
-       <div className="absolute inset-0 bg-gradient-to-br from-[#fff3e0] via-[#ffd180] to-[#ffab40]" />
-           <div className="absolute inset-0 bg-black/20" />
+<section className="relative h-[65vh] flex items-center justify-center text-center text-white overflow-hidden">
+  {/* Nền gradient dịu hơn, có chiều sâu nhẹ */}
+  <div className="absolute inset-0 bg-gradient-to-br from-[#ffe0b2] via-[#ffb74d] to-[#ff7043]" />
 
+  {/* Overlay đen nhẹ để tăng tương phản cho chữ & logo */}
+  <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
 
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+    className="relative z-10 px-6 max-w-2xl"
+  >
+    <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-[0_3px_4px_rgba(0,0,0,0.4)]">
+      Hãy viết nên câu chuyện của riêng bạn
+    </h1>
+    <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]">
+      Hãy trở thành một phần của hành trình lan tỏa yêu thương – nơi mọi hành động
+      nhỏ đều mang đến ý nghĩa lớn lao.
+    </p>
+  </motion.div>
+</section>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 px-6 max-w-2xl"
-        >
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
-           Hãy viết nên câu chuyện của riêng bạn
-          </h1>
-          <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md">
-            Hãy trở thành một phần của hành trình lan tỏa yêu thương – nơi mọi hành động
-            nhỏ đều mang đến ý nghĩa lớn lao.
-          </p>
-        </motion.div>
-      </section>
 
       {/* ✅ Gói trong Suspense để tránh lỗi build */}
       <Suspense fallback={<div className="p-10 text-center text-gray-500">Đang tải...</div>}>

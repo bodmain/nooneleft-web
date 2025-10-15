@@ -32,7 +32,7 @@ const stories = [
   {
     id: 3,
     slug: "cong-dong-la-tren-het",
-    img: "/images/lu_lut.jpg",
+    img: "/images/lu_thai_nguyen.webp",
     title: "Cộng đồng là trên hết",
     teaser: "Khi thiên tai qua đi, tình người ở lại.",
     desc:

@@ -31,3 +31,7 @@ html.accessible-mode {
   /* --text-color: #1a1a1a;
   --card-bg: #f9f4ea;
 } */ 
+/* globals.css */
+.logo-glow {
+  filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.4));
+}

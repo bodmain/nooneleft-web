@@ -4,8 +4,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { AiOutlineFontSize } from "react-icons/ai";
-
-// Font: Nunito Sans (ấm áp, thiện nguyện)
+import Image from "next/image";
 import { Nunito_Sans } from "next/font/google";
 const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
@@ -37,22 +36,38 @@ export default function Header() {
     <header
       className={`${nunito.className} fixed top-0 z-50 w-full transition-all duration-500 ${
         scrolled
-          ? "bg-[#f4e6c9]/90 backdrop-blur-md shadow-md text-gray-900"
+          ? "bg-[#fff3e0]/90 backdrop-blur-md shadow-md text-gray-900"
           : "bg-transparent text-white"
       }`}
     >
       <div className="container mx-auto flex justify-between items-center px-6 md:px-10 py-3 md:py-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 md:gap-3">
-          <div className="flex items-center justify-center bg-[#e85c34] text-white rounded-full w-9 h-9 md:w-10 md:h-10">
-            <span className="font-semibold text-lg md:text-xl">N</span>
+        {/* === LOGO + TEXT === */}
+        <Link href="/" className="flex items-center gap-1 md:gap-2">
+          <div className="relative w-14 h-14 md:w-16 md:h-16 drop-shadow-md">
+            <Image
+              src="/images/logo2.png"
+              alt="NoOneLeft logo"
+              fill
+              className="object-contain brightness-[1.1] contrast-[1.15]"
+              priority
+            />
           </div>
-          <span className="text-2xl md:text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#e85c34] to-[#f8b400]">
-            NoOneLeft
-          </span>
+
+          <div className="flex flex-col leading-tight">
+            <span
+              className={`${nunito.className} text-[1.7rem] md:text-[2.1rem] font-extrabold 
+              bg-gradient-to-r from-[#ff6600] via-[#ff8500] to-[#ffb300]
+              bg-clip-text text-transparent drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)]`}
+            >
+              NoOneLeft
+            </span>
+            <span className="text-xs md:text-sm italic text-[#f5ad5a] font-[Pacifico] -mt-1">
+              No One is Left Behind
+            </span>
+          </div>
         </Link>
 
-        {/* Desktop Menu */}
+        {/* === DESKTOP MENU === */}
         <nav className="hidden md:flex gap-6 lg:gap-10 text-[17px] font-semibold tracking-wide">
           {navItems.map((item) => {
             const active = pathname === item.href;
@@ -62,26 +77,26 @@ export default function Header() {
                 href={item.href}
                 className={`relative pb-1 transition-all duration-300 ${
                   active
-                    ? "text-[#e85c34]"
-                    : "hover:text-[#e85c34] hover:scale-105 text-inherit"
+                    ? "text-[#ff6600] drop-shadow-[0_0_6px_rgba(255,102,0,0.6)]"
+                    : "text-inherit hover:text-[#ff6600] hover:drop-shadow-[0_0_6px_rgba(255,102,0,0.5)] hover:scale-105"
                 }`}
               >
                 {item.name}
                 {active && (
-                  <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#e85c34] rounded"></span>
+                  <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#ff6600] rounded-full shadow-[0_0_4px_rgba(255,102,0,0.8)]"></span>
                 )}
               </Link>
             );
           })}
         </nav>
 
-        {/* Actions */}
+        {/* === ACTION BUTTONS === */}
         <div className="flex items-center gap-3 md:gap-4">
           {/* Font size toggle */}
           <div className="relative group">
             <button
               onClick={() => setLargeText((v) => !v)}
-              className="p-2 rounded-full bg-[#e85c34] hover:bg-[#f8b400] text-white transition"
+              className="p-2 rounded-full bg-[#ff6600] hover:bg-[#ffa000] text-white transition"
             >
               <AiOutlineFontSize size={20} />
             </button>
@@ -101,7 +116,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* === MOBILE MENU === */}
       {menuOpen && (
         <div className="md:hidden bg-[#fffaf6] text-gray-900 flex flex-col p-6 space-y-4 shadow-lg">
           {navItems.map((item) => {
@@ -111,13 +126,15 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
-                className={`relative pb-1 ${
-                  active ? "text-[#e85c34] font-semibold" : "hover:text-[#e85c34]"
+                className={`relative pb-1 transition-all duration-300 ${
+                  active
+                    ? "text-[#ff6600] font-semibold drop-shadow-[0_0_6px_rgba(255,102,0,0.6)]"
+                    : "hover:text-[#ff6600]"
                 }`}
               >
                 {item.name}
                 {active && (
-                  <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#e85c34] rounded"></span>
+                  <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-[#ff6600] rounded-full shadow-[0_0_4px_rgba(255,102,0,0.8)]"></span>
                 )}
               </Link>
             );

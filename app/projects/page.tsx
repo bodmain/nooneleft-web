@@ -4,6 +4,10 @@ import { FaWheelchair } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import CountUp from "react-countup";
+
+
+
 const SAMPLE_PROJECTS = [
   {
     id: 1,
@@ -32,7 +36,7 @@ const SAMPLE_PROJECTS = [
   {
     id: 3,
     title: "Chăm sóc sức khỏe cộng đồng",
-   img: "/images/kham_sk.jpg",
+    img: "/images/kham_sk.jpg",
     progress: 90,
     volunteers: 220,
     goal: 240,
@@ -132,12 +136,19 @@ export default function ProjectsPage() {
   }, []);
 
   const projects = useMemo(() => SAMPLE_PROJECTS, []);
-  const categories = useMemo(() => Array.from(new Set(projects.map((p) => p.category))), [projects]);
-  const regions = useMemo(() => Array.from(new Set(projects.map((p) => p.region))), [projects]);
+  const categories = useMemo(
+    () => Array.from(new Set(projects.map((p) => p.category))),
+    [projects]
+  );
+  const regions = useMemo(
+    () => Array.from(new Set(projects.map((p) => p.region))),
+    [projects]
+  );
 
   const filtered = projects.filter((p) => {
     if (onlyInclusive && !p.inclusive) return false;
-    if (keyword && !p.title.toLowerCase().includes(keyword.toLowerCase())) return false;
+    if (keyword && !p.title.toLowerCase().includes(keyword.toLowerCase()))
+      return false;
     if (category && p.category !== category) return false;
     if (region && p.region !== region) return false;
     return true;
@@ -154,30 +165,49 @@ export default function ProjectsPage() {
   return (
     <div className="pt-0">
       <section className="relative h-[75vh] flex items-center justify-center text-center text-white overflow-hidden">
-  <div className="absolute inset-0 bg-gradient-to-br from-[#fbbf77] via-[#f9a84d] to-[#f97316] animate-[gradientShift_15s_linear_infinite]" />
-  <div className="absolute inset-0 bg-black/20 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#f9e4b7] via-[#e2b96f] to-[#b8742c]" />
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-[1.5px]" />
 
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="relative z-10 px-6 max-w-3xl"
-  >
-    <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
-      Nơi bạn tạo ra thay đổi
-    </h1>
-    <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md opacity-95">
-      Khám phá các dự án thiện nguyện đang diễn ra và chọn nơi bạn muốn
-      chung tay tạo khác biệt.
-    </p>
-  </motion.div>
+        {/* Nội dung chính */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 px-6 max-w-3xl"
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg text-[#f1efed]">
+            Nơi bạn tạo ra thay đổi
+          </h1>
+          <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md text-[#eeeae8] opacity-90">
+            Khám phá các dự án thiện nguyện đang diễn ra và chọn nơi bạn muốn
+            chung tay tạo khác biệt.
+          </p>
+        </motion.div>
 
-  <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
-</section>
-
-      
+        {/* Thanh line trang trí dưới cùng */}
+        <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400" />
+      </section>
+       
       {/* === FILTER BAR === */}
       <section className="max-w-7xl mx-auto px-6 py-12">
+        {/* === SECTION TITLE === */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
+        >
+          <h2
+            className="text-3xl font-bold text-center text-orange-600 mb-8"
+          >
+            Tất cả các dự án
+          </h2>
+          <p className="text-gray-600">
+            Khám phá những dự án mà NoOneLeft đang thực hiện cùng cộng đồng.
+          </p>
+        </motion.div>
+
         <div className="flex flex-col md:flex-row items-center gap-4 mb-8">
           <div className="flex-1 flex items-center gap-2 bg-white shadow-sm rounded-xl px-3 py-2">
             <FiSearch className="text-gray-400" />
@@ -196,7 +226,9 @@ export default function ProjectsPage() {
           >
             <option value="">Tất cả lĩnh vực</option>
             {categories.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
 
@@ -207,7 +239,9 @@ export default function ProjectsPage() {
           >
             <option value="">Tất cả khu vực</option>
             {regions.map((r) => (
-              <option key={r} value={r}>{r}</option>
+              <option key={r} value={r}>
+                {r}
+              </option>
             ))}
           </select>
 
@@ -242,7 +276,9 @@ export default function ProjectsPage() {
               </div>
 
               <div className="p-5">
-                <h3 className="text-lg font-bold mb-1 text-gray-900">{p.title}</h3>
+                <h3 className="text-lg font-bold mb-1 text-gray-900">
+                  {p.title}
+                </h3>
                 <p className="text-sm text-gray-600 mb-3">
                   {p.category} • {p.region}
                 </p>
@@ -255,30 +291,31 @@ export default function ProjectsPage() {
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                   <span className="text-gray-700">{p.progress}% hoàn thành</span>
-                <div className="flex gap-2">
-                   <Link
-               href={`/join?project=${encodeURIComponent(p.title)}`}
-               className="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-400 text-white rounded-lg font-medium hover:shadow-md transition"
-                 >
-                   Tham gia
-                  </Link>
+                  <span className="text-gray-700">
+                    {p.progress}% hoàn thành
+                  </span>
+                  <div className="flex gap-2">
+                    <Link
+                      href={`/join?project=${encodeURIComponent(p.title)}`}
+                      className="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-yellow-400 text-white rounded-lg font-medium hover:shadow-md transition"
+                    >
+                      Tham gia
+                    </Link>
 
-
-                       <Link
-                         href={`/projects/${p.id}`}
-                          className="px-4 py-1.5 bg-gray-100 text-gray-800 rounded-lg font-medium hover:bg-gray-200 transition"
-                       >
-                          Xem chi tiết
-                       </Link>
+                    <Link
+                      href={`/projects/${p.id}`}
+                      className="px-4 py-1.5 bg-gray-100 text-gray-800 rounded-lg font-medium hover:bg-gray-200 transition"
+                    >
+                      Xem chi tiết
+                    </Link>
                   </div>
-               </div>
-
+                </div>
               </div>
             </article>
           ))}
         </div>
       </section>
+          
     </div>
   );
 }

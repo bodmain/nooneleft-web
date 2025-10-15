@@ -50,7 +50,7 @@ Bởi tôi biết, **hy vọng đã được truyền đi**, và tương lai đ�
   {
     slug: "cong-dong-la-tren-het",
     title: "Cộng đồng là trên hết",
-      img: "/images/lu_lut.jpg",
+    img: "/images/lu_thai_nguyen.webp",
     author: "Minh Tâm",
     location: "Quảng Trị, Việt Nam",
     category: "Môi trường",
@@ -173,7 +173,8 @@ export default function StoryDetailPage() {
           backgroundPosition: "center",
         }}
       >
-      <div className="absolute inset-0 bg-[#fbbf77]/60" />
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
+
 
         <motion.h1
           initial={{ opacity: 0, y: 40 }}

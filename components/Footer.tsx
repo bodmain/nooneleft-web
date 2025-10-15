@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Youtube, Mail } from "lucide-react";
+import Image from "next/image";
+import { Nunito_Sans } from "next/font/google";
+const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "600", "700"] });
+
+
+
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -46,17 +52,53 @@ export default function Footer() {
           viewport={{ once: true }}
           custom={0}
         >
-          <Link href="/" className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center bg-[#e85c34] text-white rounded-full w-12 h-12">
-              <span className="font-semibold text-2xl">N</span>
-            </div>
-            <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#e85c34] to-[#f8b400]">
+           {/* === LOGO + TEXT === */}
+        <Link href="/" className="flex items-center gap-1 md:gap-2">
+          <div className="relative w-14 h-14 md:w-16 md:h-16 drop-shadow-md">
+            <Image
+              src="/images/logo2.png"
+              alt="NoOneLeft logo"
+              fill
+              className="object-contain brightness-[1.1] contrast-[1.15]"
+              priority
+            />
+          </div>
+
+          <div className="flex flex-col leading-tight">
+            <span
+              className={`${nunito.className} text-[1.7rem] md:text-[2.1rem] font-extrabold 
+              bg-gradient-to-r from-[#ff6600] via-[#ff8500] to-[#ffb300]
+              bg-clip-text text-transparent drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)]`}
+            >
               NoOneLeft
             </span>
-          </Link>
+            <span className="text-xs md:text-sm italic text-[#f5ad5a] font-[Pacifico] -mt-1">
+              No One is Left Behind
+            </span>
+          </div>
+        </Link>
           <p className="text-gray-700 leading-relaxed">
             Cùng nhau lan tỏa hành động tích cực – để không ai bị bỏ lại phía sau.
           </p>
+           {/* === ICON MXH === */}
+          <div className="flex space-x-4 mt-7">
+            {[
+              { icon: Facebook, link: "#" },
+              { icon: Instagram, link: "#" },
+              { icon: Youtube, link: "#" },
+              { icon: Mail, link: "mailto:contact@nooneleft.org" },
+            ].map(({ icon: Icon, link }, i) => (
+              <motion.a
+                key={i}
+                href={link}
+                target="_blank"
+                whileHover={{ scale: 1.1, y: -2 }}
+                className="p-3 rounded-full bg-white/70 hover:bg-orange-500 hover:text-white transition-all shadow-sm"
+              >
+                <Icon className="w-5 h-5" />
+              </motion.a>
+            ))}
+          </div>
         </motion.div>
 
         {/* 2. Liên kết menu */}
@@ -66,6 +108,7 @@ export default function Footer() {
           whileInView="visible"
           viewport={{ once: true }}
           custom={1}
+          className="ml-12"
         >
           <motion.h3
             initial={{ opacity: 0, y: 15 }}
@@ -106,7 +149,7 @@ export default function Footer() {
           </ul>
         </motion.div>
 
-        {/* 3. Mạng xã hội */}
+       {/* 3. Liên hệ (thay Kết nối cũ) */}
         <motion.div
           variants={fadeIn}
           initial="hidden"
@@ -121,27 +164,12 @@ export default function Footer() {
             viewport={{ once: true }}
             className="text-xl font-bold text-gray-900 mb-4"
           >
-            Kết nối
+            Liên hệ
           </motion.h3>
 
-          <div className="flex space-x-4">
-            {[
-              { icon: Facebook, link: "#" },
-              { icon: Instagram, link: "#" },
-              { icon: Youtube, link: "#" },
-              { icon: Mail, link: "mailto:contact@nooneleft.org" },
-            ].map(({ icon: Icon, link }, i) => (
-              <motion.a
-                key={i}
-                href={link}
-                target="_blank"
-                whileHover={{ scale: 1.1, y: -2 }}
-                className="p-3 rounded-full bg-white/60 hover:bg-orange-500 hover:text-white transition-all shadow-sm"
-              >
-                <Icon className="w-5 h-5" />
-              </motion.a>
-            ))}
-          </div>
+          <p className="text-gray-700 mb-2">📍 123 Đường Thiện Tâm, TP. Hồ Chí Minh</p>
+          <p className="text-gray-700 mb-2">📞 0901 234 567</p>
+          <p className="text-gray-700">✉️ contact@nooneleft.org</p>
         </motion.div>
 
         {/* 4. Đăng ký nhận tin */}
