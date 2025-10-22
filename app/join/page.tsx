@@ -3,6 +3,7 @@ import { useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaFacebook, FaInstagram, FaTiktok, FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
 const FAQS = [
@@ -20,6 +21,18 @@ const FAQS = [
   },
 ];
 
+const LOCATION_OPTIONS = {
+  "Giáo dục cho trẻ em": ["Hà Nội", "TP.HCM", "Đà Nẵng"],
+  "Nước sạch cho mọi người": ["Huế", "Cần Thơ", "Quảng Bình"],
+  "Trồng cây xanh – Lá bảo vệ": ["Đà Lạt", "Gia Lai", "Phú Thọ"],
+  "Chung tay vì người khuyết tật": ["TP.HCM", "Hà Nội"],
+  "Tết ấm vùng cao": ["Lào Cai", "Hà Giang", "Yên Bái"],
+  "Chăm sóc sức khỏe cộng đồng": ["Cần Thơ", "Bến Tre", "Nghệ An"],
+  "Hỗ trợ y tế lưu động": ["TP.HCM", "Đồng Nai"],
+  "Thư viện cho trẻ em vùng sâu": ["Kon Tum", "Bắc Giang"],
+};
+
+
 const PROJECT_OPTIONS = [
   "Nước sạch cho mọi người",
   "Giáo dục cho trẻ em",
@@ -30,10 +43,15 @@ const PROJECT_OPTIONS = [
   "Hỗ trợ y tế lưu động",
   "Thư viện cho trẻ em vùng sâu",
 ];
-
+const messages = [
+    "Tôi muốn trẻ em vùng cao được học chữ.",
+    "Tôi muốn không ai bị bỏ lại phía sau.",
+    "Tôi muốn thấy nụ cười trên mọi khuôn mặt.",
+  ];
 function JoinForm() {
   const searchParams = useSearchParams();
   const projectParam = searchParams.get("project");
+  const router = useRouter();
 
   const [selectedFAQ, setSelectedFAQ] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -46,6 +64,21 @@ function JoinForm() {
     message: "",
   });
 
+  // store the project selected at submission so modal can reference it after we clear the form
+  const [submittedProject, setSubmittedProject] = useState<string | null>(null);
+
+  // map project titles to project ids used by /projects/[id]
+  const PROJECT_TITLE_TO_ID: Record<string, string> = {
+    "Nước sạch cho mọi người": "1",
+    "Giáo dục cho trẻ em": "2",
+    "Chăm sóc sức khỏe cộng đồng": "3",
+    "Trồng cây xanh – Lá bảo vệ": "4",
+    "Chung tay vì người khuyết tật": "5",
+    "Tết ấm vùng cao": "6",
+    "Hỗ trợ y tế lưu động": "7",
+    "Thư viện cho trẻ em vùng sâu": "8",
+  };
+
   useEffect(() => {
     if (projectParam) {
       setForm((prev) => ({ ...prev, project: projectParam }));
@@ -54,6 +87,9 @@ function JoinForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // capture the selected project now so modal still knows it after we clear the form
+    const picked = form.project || projectParam || null;
+    setSubmittedProject(picked);
     setSubmitted(true);
     setForm({
       name: "",
@@ -63,7 +99,8 @@ function JoinForm() {
       role: "",
       message: "",
     });
-    setTimeout(() => setSubmitted(false), 4000);
+    // keep the modal open until user closes or navigates; auto-close after 8s as fallback
+    setTimeout(() => setSubmitted(false), 8000);
   };
 
   return (
@@ -202,12 +239,29 @@ function JoinForm() {
                     <br />
                     Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.
                   </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="px-6 py-2 bg-orange-500 text-white rounded-full hover:brightness-110 transition"
-                  >
-                    Đóng
-                  </button>
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:brightness-95 transition"
+                    >
+                      Ở lại trang
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        // navigate to project detail if project selected at submit time
+                        const title = submittedProject || projectParam || "";
+                        const pid = PROJECT_TITLE_TO_ID[title as string];
+                        if (pid) router.push(`/projects/${pid}`);
+                      }}
+                      disabled={!submittedProject && !projectParam}
+                      className={`px-6 py-2 rounded-full text-white transition ${
+                        (submittedProject || projectParam) ? "bg-orange-500 hover:brightness-110" : "bg-orange-200 cursor-not-allowed"
+                      }`}
+                    >
+                      Đi đến dự án
+                    </button>
+                  </div>
                 </motion.div>
               </motion.div>
             )}
@@ -254,30 +308,75 @@ function JoinForm() {
 export default function JoinPage() {
   return (
     <>
-      {/* === HERO === */}
-<section className="relative h-[65vh] flex items-center justify-center text-center text-white overflow-hidden">
-  {/* Nền gradient dịu hơn, có chiều sâu nhẹ */}
-  <div className="absolute inset-0 bg-gradient-to-br from-[#ffe0b2] via-[#ffb74d] to-[#ff7043]" />
+      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#87CEEB] via-[#FFD580] to-[#FF9F1C] text-white">
+      {/* === LỚP 1: MÂY BAY PARALLAX === */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.img
+          src="/images/cloud1.png"
+          alt="cloud"
+          className="absolute top-10 left-[-10%] w-1/2 opacity-80"
+          animate={{ x: [0, 50, 0] }}
+          transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+        />
+        <motion.img
+          src="/images/cloud2.png"
+          alt="cloud"
+          className="absolute bottom-10 right-[-10%] w-1/3 opacity-70"
+          animate={{ x: [0, -40, 0] }}
+          transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
+        />
+      </div>
 
-  {/* Overlay đen nhẹ để tăng tương phản cho chữ & logo */}
-  <div className="absolute inset-0 bg-black/30 backdrop-blur-[1px]" />
+      {/* === LỚP 2: ÁNH SÁNG MẶT TRỜI === */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-[#fff6c2]/50 via-transparent to-transparent blur-3xl pointer-events-none"></div>
 
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="relative z-10 px-6 max-w-2xl"
-  >
-    <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-[0_3px_4px_rgba(0,0,0,0.4)]">
-      Hãy viết nên câu chuyện của riêng bạn
-    </h1>
-    <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]">
-      Hãy trở thành một phần của hành trình lan tỏa yêu thương – nơi mọi hành động
-      nhỏ đều mang đến ý nghĩa lớn lao.
-    </p>
-  </motion.div>
-</section>
+      {/* === LỚP 3: THÔNG ĐIỆP BAY === */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-lg md:text-xl italic font-medium opacity-80 select-none">
+        {messages.map((msg, i) => (
+          <motion.p
+            key={i}
+            className="absolute text-white drop-shadow-lg"
+            animate={{
+              x: [400, -400],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 16,
+              delay: i * 4,
+              ease: "easeInOut",
+            }}
+          >
+            “{msg}”
+          </motion.p>
+        ))}
+      </div>
 
+      {/* === LỚP 4: TIÊU ĐỀ CHÍNH === */}
+      <div className="relative z-10 text-center max-w-3xl px-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2 }}
+          className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-xl"
+        >
+          Thông điệp giữa <span className="text-yellow-300">bầu trời</span> hy vọng
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1.2 }}
+          className="mt-6 text-lg md:text-xl text-[#fff8e7] leading-relaxed"
+        >
+          Mỗi ước mơ – mỗi tấm lòng – đều có thể bay cao,
+          <br /> nếu chúng ta cùng nhau thắp sáng niềm tin.
+        </motion.p>
+      </div>
+
+      {/* === HIỆU ỨNG DƯỚI CÙNG === */}
+      <div className="absolute bottom-0 left-0 w-full h-[6px] bg-gradient-to-r from-[#f97316] via-[#fbbf77] to-[#f97316]" />
+    </section>
 
       {/* ✅ Gói trong Suspense để tránh lỗi build */}
       <Suspense fallback={<div className="p-10 text-center text-gray-500">Đang tải...</div>}>

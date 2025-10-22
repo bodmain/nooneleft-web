@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Heart,
@@ -12,6 +13,37 @@ import {
 import { team } from "../data/team";
 
 export default function AboutPage() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = videoRef.current;
+          if (!video) return;
+
+          if (entry.isIntersecting) {
+            // Hero trong khung nhìn -> phát video
+            video.play().catch(() => {});
+          } else {
+            // Hero ra khỏi khung nhìn -> dừng video
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.3 } // chỉ cần 30% hero còn trong khung nhìn là đủ
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => {
+      if (heroRef.current) observer.unobserve(heroRef.current);
+    };
+  }, []);
+
   const missionVisionValues = [
     {
       icon: Heart,
@@ -109,9 +141,25 @@ export default function AboutPage() {
   return (
     <div className="pt-0">
       {/* === HERO SECTION === */}
-      <section className="relative flex flex-col justify-center items-center text-center text-white h-[70vh] overflow-hidden">
-        <div className="absolute inset-0 bg-[#a99584]" />
+      <section
+        ref={heroRef}
+        className="relative flex flex-col justify-center items-center text-center text-white h-[70vh] overflow-hidden"
+      >
+        {/* 🎥 Video nền */}
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/videos/volunteer.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
 
+        {/* Overlay mờ */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Nội dung chữ */}
         <div className="relative z-10 px-6 max-w-3xl">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
@@ -121,10 +169,7 @@ export default function AboutPage() {
             className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg"
           >
             <span className="text-white">Giới thiệu về </span>
-            <span
-              className="bg-gradient-to-r from-[#ff6600] via-[#ff8500] to-[#ffb300]
-               bg-clip-text text-transparent drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)]"
-            >
+            <span className="bg-gradient-to-r from-[#ff6600] via-[#ff8500] to-[#ffb300] bg-clip-text text-transparent drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)]">
               NoOneLeft
             </span>
           </motion.h1>
@@ -145,6 +190,8 @@ export default function AboutPage() {
             cộng đồng để trao cơ hội cho mọi người.
           </motion.p>
         </div>
+
+        {/* Đường viền gradient */}
         <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
       </section>
 

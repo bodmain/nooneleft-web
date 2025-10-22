@@ -9,7 +9,7 @@ const stories = [
     id: 1,
     slug: "hanh-trinh-cua-mot-tinh-nguyen-vien",
     title: "Hành trình của một tình nguyện viên",
-    img:"/images/b.jpg",
+    img: "/images/b.jpg",
     desc: "Một chuyến đi vùng cao đã thay đổi cách tôi nhìn về hạnh phúc, chia sẻ và lòng nhân ái.",
     category: "Giáo dục",
   },
@@ -17,7 +17,7 @@ const stories = [
     id: 2,
     slug: "hy-vong-cho-tre-em",
     title: "Hy vọng cho trẻ em",
-    img:"/images/lop_hoc.jpg",
+    img: "/images/lop_hoc.jpg",
     desc: "Từ những lớp học nhỏ ở vùng cao, niềm tin và khát vọng được viết nên bằng từng nét chữ đầu tiên.",
     category: "Giáo dục",
   },
@@ -61,7 +61,9 @@ export default function StoriesPage() {
   const [form, setForm] = useState({ title: "", content: "", file: null });
 
   const filteredStories =
-    filter === "Tất cả" ? stories : stories.filter((s) => s.category === filter);
+    filter === "Tất cả"
+      ? stories
+      : stories.filter((s) => s.category === filter);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,36 +71,68 @@ export default function StoriesPage() {
     setForm({ title: "", content: "", file: null });
     setTimeout(() => setSubmitted(false), 3000);
   };
+  const images = [
+    "/images/tang_sach.jpg",
+    "/images/tl2.jpg",
+    "/images/tl1.jpg",
+    "/images/giup_do.jpg",
+    "/images/lu_thai_nguyen.webp",
+    "/images/tc.jpg",
+  ];
 
   return (
     <div className="pt-0">
-     <section className="relative h-[75vh] flex items-center justify-center text-center text-white overflow-hidden">
- {/* Gradient nền ấm dịu hơn, bớt chói và có chiều sâu */}
-<div className="absolute inset-0 bg-gradient-to-br from-[#f3d6a0] via-[#d48b2a] to-[#c96b29] animate-[gradientShift_18s_linear_infinite]" />
+      <section className="relative flex flex-col justify-center items-center text-center text-white h-[80vh] overflow-hidden">
+        {/* === Layer 1: Ảnh nền ghép có hiệu ứng xuất hiện tuần tự === */}
+        <div className="absolute inset-0 grid grid-cols-2 md:grid-cols-3 gap-[1px]">
+          {images.map((src, index) => (
+            <motion.img
+              key={src}
+              src={src}
+              alt={`story-${index}`}
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                delay: index * 0.3, // ảnh xuất hiện lệch nhau 0.3s
+                duration: 1.2,
+                ease: "easeOut",
+              }}
+              className="object-cover w-full h-full brightness-[0.85] hover:brightness-100 transition-all duration-700"
+            />
+          ))}
+        </div>
 
-{/* Lớp phủ làm mềm màu & giúp chữ/logo nổi hơn */}
-<div className="absolute inset-0 bg-white/20 backdrop-blur-[3px]" />
+        {/* === Overlay giống Hero Home: ấm, nhẹ, giúp logo & text nổi bật === */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
 
+        {/* === Layer 2: Nội dung chữ === */}
+        <div className="relative z-10 px-6 max-w-3xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: images.length * 0.3 }}
+            className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-[0_3px_8px_rgba(0,0,0,0.7)]"
+          >
+            Những câu chuyện nhỏ,
+            <br />
+            <span className="text-orange-400">tạo nên thay đổi lớn.</span>
+          </motion.h1>
 
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: images.length * 0.3 + 0.3, duration: 0.8 }}
+            className="text-lg md:text-xl text-gray-100 font-medium leading-relaxed drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]"
+          >
+            “Mỗi người đều có một câu chuyện xứng đáng được lắng nghe.
+            <br />
+            Chúng tôi kể lại để giữ ngọn lửa nhân ái luôn sáng.”
+          </motion.p>
+        </div>
 
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="relative z-10 px-6 max-w-3xl"
-  >
-    <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg">
-      Câu chuyện của tuần
-    </h1>
-    <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md opacity-95">
-      Mỗi hành động nhỏ đều có thể tạo ra thay đổi lớn — cùng NoOneLeft
-      viết tiếp hành trình thiện nguyện và sẻ chia yêu thương.
-    </p>
-  </motion.div>
-
-  <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400" />
-</section>
-
+        {/* Viền gradient dưới để kết nối với phần nội dung */}
+        <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
+      </section>
 
       {/* === DANH SÁCH CÂU CHUYỆN === */}
       <section className="py-20 bg-gradient-to-b from-white to-orange-50">
@@ -276,8 +310,8 @@ export default function StoriesPage() {
                   Cảm ơn bạn! 💌
                 </h3>
                 <p className="text-gray-700 mb-4">
-                  Câu chuyện của bạn đã được gửi thành công.  
-                  Chúng tôi sẽ xem xét và chia sẻ trong cộng đồng sớm nhất.
+                  Câu chuyện của bạn đã được gửi thành công. Chúng tôi sẽ xem
+                  xét và chia sẻ trong cộng đồng sớm nhất.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}

@@ -6,8 +6,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import CountUp from "react-countup";
 
-
-
 const SAMPLE_PROJECTS = [
   {
     id: 1,
@@ -161,33 +159,70 @@ export default function ProjectsPage() {
   const volunteersCount = useCountUp(totalVolunteers, 900);
   const projectsCount = useCountUp(totalProjects, 700);
   const beneCount = useCountUp(totalBeneficiaries, 1000);
-
+  
+  
   return (
     <div className="pt-0">
-      <section className="relative h-[75vh] flex items-center justify-center text-center text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f9e4b7] via-[#e2b96f] to-[#b8742c]" />
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-[1.5px]" />
+          <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-100 via-orange-200 to-pink-100">
+      {/* Hiệu ứng ánh sáng lan tỏa */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,200,150,0.6)_0%,transparent_70%)] animate-pulse" />
 
-        {/* Nội dung chính */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
+      {/* Đường ánh sáng (mô phỏng hành trình) */}
+      <motion.div
+        className="absolute bottom-1/3 left-0 w-full h-[2px] bg-gradient-to-r from-yellow-300 via-orange-400 to-pink-400 opacity-80"
+        initial={{ x: "-100%" }}
+        animate={{ x: "100%" }}
+        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Particles nhỏ tượng trưng hành động lan tỏa */}
+      {[...Array(15)].map((_, i) => (
+        <motion.span
+          key={i}
+          className="absolute bg-white rounded-full opacity-70"
+          style={{
+            width: Math.random() * 6 + 3,
+            height: Math.random() * 6 + 3,
+            left: `${Math.random() * 100}%`,
+            bottom: `${Math.random() * 50}%`,
+          }}
+          animate={{
+            y: [-10, -250],
+            opacity: [1, 0],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 3,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+          }}
+        />
+      ))}
+
+      {/* Text content */}
+      <div className="relative z-10 text-center px-6">
+        <motion.h1
+          className="text-5xl md:text-6xl font-bold text-amber-700 drop-shadow-lg"
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 px-6 max-w-3xl"
+          transition={{ duration: 1 }}
         >
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg text-[#f1efed]">
-            Nơi bạn tạo ra thay đổi
-          </h1>
-          <p className="text-lg md:text-xl font-medium leading-relaxed drop-shadow-md text-[#eeeae8] opacity-90">
-            Khám phá các dự án thiện nguyện đang diễn ra và chọn nơi bạn muốn
-            chung tay tạo khác biệt.
-          </p>
-        </motion.div>
+          Hành trình lan tỏa
+        </motion.h1>
 
-        {/* Thanh line trang trí dưới cùng */}
-        <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-400 via-yellow-300 to-orange-400" />
-      </section>
-       
+        <motion.p
+          className="mt-4 text-lg md:text-xl text-gray-700 max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 1 }}
+        >
+          Từ một ý tưởng nhỏ, chúng ta cùng nhau tạo nên những thay đổi lớn — từng dự án, từng câu chuyện, từng trái tim.
+        </motion.p>
+      </div>
+
+      {/* Hiệu ứng phủ nhẹ để tạo chiều sâu */}
+      <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
+    </section>
+
       {/* === FILTER BAR === */}
       <section className="max-w-7xl mx-auto px-6 py-12">
         {/* === SECTION TITLE === */}
@@ -198,9 +233,7 @@ export default function ProjectsPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <h2
-            className="text-3xl font-bold text-center text-orange-600 mb-8"
-          >
+          <h2 className="text-3xl font-bold text-center text-orange-600 mb-8">
             Tất cả các dự án
           </h2>
           <p className="text-gray-600">
@@ -315,7 +348,6 @@ export default function ProjectsPage() {
           ))}
         </div>
       </section>
-          
     </div>
   );
 }
