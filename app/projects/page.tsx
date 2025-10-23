@@ -167,7 +167,7 @@ export default function ProjectsPage() {
         <div
           className="absolute inset-0 bg-cover bg-center scale-105"
           style={{
-            backgroundImage: "url('/images/thien-nguyen.jpg')", // 👉 thay bằng ảnh thực tế dự án
+            backgroundImage: "url('/images/bt2.jpg')", // 👉 thay bằng ảnh thực tế dự án
           }}
         />
 
