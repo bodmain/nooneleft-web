@@ -159,69 +159,101 @@ export default function ProjectsPage() {
   const volunteersCount = useCountUp(totalVolunteers, 900);
   const projectsCount = useCountUp(totalProjects, 700);
   const beneCount = useCountUp(totalBeneficiaries, 1000);
-  
-  
+
   return (
     <div className="pt-0">
-          <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-amber-100 via-orange-200 to-pink-100">
-      {/* Hiệu ứng ánh sáng lan tỏa */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,200,150,0.6)_0%,transparent_70%)] animate-pulse" />
-
-      {/* Đường ánh sáng (mô phỏng hành trình) */}
-      <motion.div
-        className="absolute bottom-1/3 left-0 w-full h-[2px] bg-gradient-to-r from-yellow-300 via-orange-400 to-pink-400 opacity-80"
-        initial={{ x: "-100%" }}
-        animate={{ x: "100%" }}
-        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-      />
-
-      {/* Particles nhỏ tượng trưng hành động lan tỏa */}
-      {[...Array(15)].map((_, i) => (
-        <motion.span
-          key={i}
-          className="absolute bg-white rounded-full opacity-70"
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+        {/* === Background Image === */}
+        <div
+          className="absolute inset-0 bg-cover bg-center scale-105"
           style={{
-            width: Math.random() * 6 + 3,
-            height: Math.random() * 6 + 3,
-            left: `${Math.random() * 100}%`,
-            bottom: `${Math.random() * 50}%`,
-          }}
-          animate={{
-            y: [-10, -250],
-            opacity: [1, 0],
-          }}
-          transition={{
-            duration: 4 + Math.random() * 3,
-            repeat: Infinity,
-            delay: Math.random() * 2,
+            backgroundImage: "url('/images/thien-nguyen.jpg')", // 👉 thay bằng ảnh thực tế dự án
           }}
         />
-      ))}
 
-      {/* Text content */}
-      <div className="relative z-10 text-center px-6">
-        <motion.h1
-          className="text-5xl md:text-6xl font-bold text-amber-700 drop-shadow-lg"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          Hành trình lan tỏa
-        </motion.h1>
+        {/* === Overlay tone ấm dịu === */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2b1a0d]/70 via-[#4a2e1b]/60 to-[#f6b26b]/40 mix-blend-multiply" />
 
-        <motion.p
-          className="mt-4 text-lg md:text-xl text-gray-700 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 1 }}
-        >
-          Từ một ý tưởng nhỏ, chúng ta cùng nhau tạo nên những thay đổi lớn — từng dự án, từng câu chuyện, từng trái tim.
-        </motion.p>
-      </div>
+        {/* === Hiệu ứng ánh sáng động nhẹ (ánh nắng len qua) === */}
+        <motion.div
+          initial={{ opacity: 0, x: "-10%" }}
+          animate={{ opacity: [0.2, 0.6, 0.2], x: ["-10%", "10%", "-10%"] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-yellow-200/30 via-transparent to-transparent blur-3xl"
+        />
 
-      {/* Hiệu ứng phủ nhẹ để tạo chiều sâu */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
-    </section>
+        {/* === Hiệu ứng floating particles (ánh sáng bay lơ lửng) === */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(10)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-yellow-300/70 rounded-full blur-[2px]"
+              initial={{
+                opacity: 0,
+                y:
+                  typeof window !== "undefined"
+                    ? Math.random() * 300 + 200
+                    : Math.random() * 300, // fallback khi SSR
+                x:
+                  typeof window !== "undefined"
+                    ? Math.random() * window.innerWidth
+                    : Math.random() * 1000, // fallback
+              }}
+              animate={{
+                opacity: [0, 1, 0],
+                y: [
+                  typeof window !== "undefined"
+                    ? Math.random() * 400 + 200
+                    : Math.random() * 400,
+                  -100,
+                ],
+              }}
+              transition={{
+                duration: 6 + Math.random() * 4,
+                repeat: Infinity,
+                delay: Math.random() * 3,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* === Nội dung === */}
+        <div className="relative text-center px-6 max-w-3xl z-10">
+          <motion.h1
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.5)] leading-tight"
+          >
+            Cánh tay nối dài
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1.2 }}
+            className="text-base md:text-lg text-gray-100 mt-4 font-medium leading-relaxed"
+          >
+            Mỗi dự án là một{" "}
+            <span className="text-orange-300 font-semibold">
+              cánh tay nối dài
+            </span>{" "}
+            – mang yêu thương chạm đến những nơi{" "}
+            <span className="italic">ánh sáng chưa kịp tới</span>.
+          </motion.p>
+        </div>
+
+        {/* === Biểu tượng bàn tay nổi nhẹ === */}
+        <motion.img
+          src="/images/bt3.png"
+          alt="Helping Hands"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 w-14 h-14 opacity-90 drop-shadow-lg"
+          animate={{ y: [0, -10, 0], rotate: [0, 2, -2, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Viền gradient dưới để kết nối với phần nội dung */}
+        <div className="absolute bottom-0 left-0 w-full h-[5px] bg-gradient-to-r from-orange-500 via-yellow-400 to-orange-500" />
+      </section>
 
       {/* === FILTER BAR === */}
       <section className="max-w-7xl mx-auto px-6 py-12">
